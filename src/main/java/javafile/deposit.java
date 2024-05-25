@@ -68,54 +68,57 @@ public class deposit extends HttpServlet {
 		    }
 			if(amt.length()>0){
 				int amount = Integer.parseInt(amt);
-				p = c.prepareStatement("select balance from account where account_number = ?");
-				p.setString(1, number);
-				r = p.executeQuery();
-				while(r.next()) {
-					balance = r.getInt(1);
-					p = c.prepareStatement("update account set balance=?+? where account_number=?");
-					p.setInt(1, balance);
-					p.setInt(2, amount);
-					p.setString(3, number);
-					rs = p.executeUpdate();
-					
-					p=c.prepareStatement("select balance from account where account_number=?");
+				if(amount<80000) {
+					p = c.prepareStatement("select balance from account where account_number = ?");
 					p.setString(1, number);
-					r=p.executeQuery();
+					r = p.executeQuery();
 					while(r.next()) {
 						balance = r.getInt(1);
-					}
-					
-					if(rs>0) {
-						p = c.prepareStatement("insert into transaction values(?,?,?,'CREDIT',?)");
-						p.setString(1, formattedDateTime);
-						p.setString(2, id);
-						p.setInt(3, amount);
-						p.setInt(4, balance);
-						rs=0;
+						p = c.prepareStatement("update account set balance=?+? where account_number=?");
+						p.setInt(1, balance);
+						p.setInt(2, amount);
+						p.setString(3, number);
 						rs = p.executeUpdate();
+					
+						p=c.prepareStatement("select balance from account where account_number=?");
+						p.setString(1, number);
+						r=p.executeQuery();
+						while(r.next()) {
+							balance = r.getInt(1);
+						}
+					
 						if(rs>0) {
-							request.setAttribute("success", "Deposit Successfully");
-							RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
-							rd.forward(request, response);
+							p = c.prepareStatement("insert into transaction values(?,?,?,'CREDIT',?)");
+							p.setString(1, formattedDateTime);
+							p.setString(2, id);
+							p.setInt(3, amount);
+							p.setInt(4, balance);
+							rs=0;
+							rs = p.executeUpdate();
+							if(rs>0) {
+								request.setAttribute("success", "Deposit Successfully");
+								RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
+								rd.forward(request, response);
+							}
+							else {
+								request.setAttribute("success", "Deposit Successfull but Transaction not Registered");
+								RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
+								rd.forward(request, response);
+							}
 						}
 						else {
-							request.setAttribute("success", "Deposit Successfull but Transaction not Registered");
+							request.setAttribute("success", "Deposit Failed");
 							RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
 							rd.forward(request, response);
 						}
-						
-						
-						
-						
-						
-					}
-					else {
-						request.setAttribute("success", "Deposit Failed");
-						RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
-						rd.forward(request, response);
 					}
 				}
+				else {
+					request.setAttribute("success", "You can Deposit upto 80000 only");
+					RequestDispatcher rd = request.getRequestDispatcher("deposit.jsp");
+					rd.forward(request, response);
+				}
+				
 			}
 			else {
 				request.setAttribute("success", "Deposit Failed");

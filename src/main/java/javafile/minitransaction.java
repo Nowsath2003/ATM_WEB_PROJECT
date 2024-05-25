@@ -47,7 +47,7 @@ public class minitransaction extends HttpServlet {
 			request.setAttribute("number", number);
 			
 			
-			PreparedStatement p = c.prepareStatement("select * from transaction where id = (select id from account where account_number = ?) order by time desc");
+			PreparedStatement p = c.prepareStatement("select * from transaction where id = (select id from account where account_number = ?) order by time desc limit 5");
 			p.setString(1, number);
 			ResultSet rs = p.executeQuery();
 			while(rs.next()) {

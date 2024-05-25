@@ -164,15 +164,15 @@
                         <table>
                             <tr>
                                 <td class="row1">Enter your OLD PIN:</td>
-                                <td><input type="number" class="box" name="oldpin" required></td>
+                                <td><input type="password" class="box" name="oldpin" required></td>
                             </tr>
                             <tr>
                                 <td class="row1">Enter your NEW PIN:</td>
-                                <td><input type="number" class="box" name="newpin" required></td>
+                                <td><input type="password" class="box" name="newpin" required></td>
                             </tr>
                             <tr>
                                 <td class="row1">Re-Enter your NEW PIN:</td>
-                                <td><input type="number" class="box" name="newpin2" required></td>
+                                <td><input type="password" class="box" name="newpin2" required></td>
                             </tr>
                         </table>
                         
