@@ -96,7 +96,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ## Contact
 
-For any questions or suggestions, feel free to reach out to me at [your.email@example.com].
+For any questions or suggestions, feel free to reach out to me at [nowsath2003@gmail.com].
 
 ---
 
